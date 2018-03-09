@@ -4,11 +4,7 @@ Created on Thu Jan 25 15:19:50 2018
 
 @author: Administrator
 """
-"""
-Visit all files and classify.
-Classify feature: Grade No., Thickness, PassNo.,
-Locate position: l,r, Plot the minest sum of distance in one file and calculate the average line and plot it.
-"""
+
 
 import csv
 import matplotlib.pyplot as plt
@@ -77,9 +73,9 @@ for i in range(len(Gradelist)):
     
 
 print('name:',len(name))
-tt = 39
-for k in range(tt,tt+1):#len(name)):
-    #plt.close()
+tt = 3
+for k in range(tt,tt+2):#len(name)):
+    plt.close()
     #plt.pause(10)
     plt.figure(k)
     y = [0 for i in range(49)]
@@ -94,8 +90,8 @@ for k in range(tt,tt+1):#len(name)):
         #rows = VR2Position.rows
         #l,r = apartspeed.apartspeed()
         l,r = VR2Position.Position(rows)
-        r = l-1
-        l = 0
+        #r = l-1
+        #l = 0
         print('l,r:',l,r)
         
         t = dismatrix.position(rows[l:r])
@@ -104,16 +100,26 @@ for k in range(tt,tt+1):#len(name)):
         print('loc:',loc)
         Y1 = []
         X1 = []
+        Z1 = []
         for j in range(1,49):
             column = 'SPFB' + str(j)
             #Y1.append(int(rows[loc[k]][column]))
             y[j-1] += int(rows[loc][column])/(len(name[k]))
             Y1.append(int(rows[loc][column]))
             X1.append(j)
+        for j in range(1,8):
+            column = 'asu_fb1_' + str(j)
+            Z1.append(int(rows[loc][column]))
+        Z1.append(int(rows[loc]['lat_fb1']))
+        Z1.append(int(rows[loc]['lat_fb2']))
+        plt.subplot(211)
+        plt.plot(Z1)
+        plt.subplot(212)
         plt.plot(X1,Y1,label = i)
         
     for i in range(47,-1,-1):
         y[i+1] = y[i]
+    plt.subplot(212)
     plt.plot(X1,y[1:],marker = 'x')
     
     plt.legend(loc = 'upper right')
